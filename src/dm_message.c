@@ -463,7 +463,7 @@ static DbmailMessage * _mime_retrieve(DbmailMessage *self)
 			dprint("<part is_header=\"%d\" depth=\"%d\" key=\"%d\" order=\"%d\">\n%s\n</part>\n", 
 				is_header, depth, key, order, str);
 
-			if (is_header)
+			if (is_header && is_message)
 				p_string_append_printf(m,"\n");
 			
 			g_free(str);
