@@ -454,16 +454,20 @@ static DbmailMessage * _mime_retrieve(DbmailMessage *self)
 			if ((depth > 0) && (blist[depth-1][0]))
 				strncpy(boundary, blist[depth-1], MAX_MIME_BLEN-1);
 
-			if (is_header && (!prev_header || prev_boundary || (prev_header && depth>0 && !prev_is_message))) {
+			if (is_header)
+			  if (prev_header && depth>0 && !prev_is_message) {
+				dprint("--%s\n", boundary);
+				p_string_append_printf(m, "--%s\n", boundary);
+			  } else if (!prev_header || prev_boundary) {
 				dprint("\n--%s\n", boundary);
 				p_string_append_printf(m, "\n--%s\n", boundary);
-			}
+			  }
 
 			p_string_append_printf(m, "%s", str);
 			dprint("<part is_header=\"%d\" depth=\"%d\" key=\"%d\" order=\"%d\">\n%s\n</part>\n", 
 				is_header, depth, key, order, str);
 
-			if (is_header && is_message)
+			if (is_header)
 				p_string_append_printf(m,"\n");
 			
 			g_free(str);
