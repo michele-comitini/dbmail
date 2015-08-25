@@ -387,7 +387,7 @@ static DbmailMessage * _mime_retrieve(DbmailMessage *self)
 				"FROM %smimeparts p "
 				"JOIN %spartlists l ON p.id = l.part_id "
 				"JOIN %sphysmessage ph ON ph.id = l.physmessage_id "
-				"WHERE l.physmessage_id = ? ORDER BY l.part_key,l.part_order ASC", 
+				"WHERE l.physmessage_id = ? ORDER BY l.part_key,l.part_order ASC,l.part_depth DESC", 
 				frag, p_string_str(n), DBPFX, DBPFX, DBPFX);
 		db_stmt_set_u64(stmt, 1, self->id);
 		r = db_stmt_query(stmt);
